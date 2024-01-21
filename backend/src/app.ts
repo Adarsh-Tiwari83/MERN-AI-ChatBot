@@ -1,6 +1,7 @@
 import express from "express";
 import { config } from "dotenv";
 import morgan from "morgan";
+import cors from 'cors'
 import appRouter from "./routes/index.js";
 import cookieParser from "cookie-parser";
 config();
@@ -8,6 +9,7 @@ config();
 const app=express();
 
 // Middle Ware
+app.use(cors({origin:'http://localhost:5173',credentials:true}))
 app.use(express.json);
 // Another Middleware but removed at the time of production.//
 app.use(morgan("dev"));
