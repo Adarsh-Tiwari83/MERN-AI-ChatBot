@@ -1,21 +1,21 @@
-import {connect,disconnect} from "mongoose";
+import { connect,disconnect } from "mongoose";
 
-async function connectToDatabase(){
+async function ConnectToDatabase (){
     try{
         await connect(process.env.MONGODB_URL);
     }catch(error){
-        console.log(error);
-        throw new Error("Cannot Connect To MongoDB");
+        console.log(error)
+        throw new Error("Cannot connect to database.");
     }
 }
 
-async function disconnectToDatabase(){
+async function DisConnectToDatabase() {
     try{
-        await disconnect();
+        await disconnect()
     }catch(error){
-        console.log(error);
-        throw new Error("Cannot disconnect To MongoDB");
+        console.log(error.message)
+        throw new Error("Cannot connect to database.");
     }
 }
 
-export {connectToDatabase, disconnectToDatabase};
+export {ConnectToDatabase,DisConnectToDatabase};
