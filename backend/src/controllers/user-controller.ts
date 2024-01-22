@@ -92,3 +92,33 @@ export const verifyUser = async (
     return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };
+
+
+export const userLogout = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      //user token check
+      const users = await user.findById(res.locals.jwtData.id);
+      if (!users) {
+        return res.status(401).send("User not registered OR Token malfunctioned");
+      }
+      if (users._id.toString() !== res.locals.jwtData.id) {
+        return res.status(401).send("Permissions didn't match");
+      }
+        res.clearCookie(COOKIE_NAME,{
+            domain:"localhost",
+            httpOnly:true,
+            signed:true,
+            path:"/"
+        });
+      return res
+        .status(200)
+        .json({ message: "OK", name: users.name, email: users.email });
+    } catch (error) {
+      console.log(error);
+      return res.status(200).json({ message: "ERROR", cause: error.message });
+    }
+  };
