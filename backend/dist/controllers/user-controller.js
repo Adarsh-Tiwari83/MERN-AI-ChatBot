@@ -12,7 +12,7 @@ export const getAllUser = async (req, res, next) => {
         return res.status(404).json({ message: "ERROR", cause: error.message });
     }
 };
-export const UsersignUp = async (req, res, next) => {
+export const userSignup = async (req, res, next) => {
     // For user Sign up
     try {
         const { name, email, password } = req.body;
@@ -34,7 +34,7 @@ export const UsersignUp = async (req, res, next) => {
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
         res.cookie(COOKIE_NAME, token, { path: "/", domain: "localhost", expires, httpOnly: true, signed: true });
-        return res.status(201).json({ message: "ok", name:users.name,email:users.email });
+        return res.status(201).json({ message: "ok", email: users.email, name: users.name });
     }
     catch (error) {
         console.log(error);
@@ -63,13 +63,55 @@ export const userLogin = async (req, res, next) => {
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
         res.cookie(COOKIE_NAME, token, { path: "/", domain: "localhost", expires, httpOnly: true, signed: true });
-        return res
-          .status(201)
-          .json({ message: "ok", name: users.name, email: users.email });
+        return res.status(201).json({ message: "ok", email: exist.email, name: exist.name });
     }
     catch (error) {
         console.log(error);
         return res.status(404).json({ message: "ERROR", cause: error.message });
+    }
+};
+export const verifyUser = async (req, res, next) => {
+    try {
+        //user token check
+        const users = await user.findById(res.locals.jwtData.id);
+        if (!users) {
+            return res.status(401).send("User not registered OR Token malfunctioned");
+        }
+        if (users._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).send("Permissions didn't match");
+        }
+        return res
+            .status(200)
+            .json({ message: "OK", name: users.name, email: users.email });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(200).json({ message: "ERROR", cause: error.message });
+    }
+};
+export const userLogout = async (req, res, next) => {
+    try {
+        //user token check
+        const users = await user.findById(res.locals.jwtData.id);
+        if (!users) {
+            return res.status(401).send("User not registered OR Token malfunctioned");
+        }
+        if (users._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).send("Permissions didn't match");
+        }
+        res.clearCookie(COOKIE_NAME, {
+            domain: "localhost",
+            httpOnly: true,
+            signed: true,
+            path: "/"
+        });
+        return res
+            .status(200)
+            .json({ message: "OK", name: users.name, email: users.email });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(200).json({ message: "ERROR", cause: error.message });
     }
 };
 //# sourceMappingURL=user-controller.js.map
