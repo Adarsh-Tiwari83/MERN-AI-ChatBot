@@ -1,7 +1,10 @@
-import axios from "axios"
+import axios from 'axios'
+
+
 
 export const loginUser=async(email:string,password:string)=>{
     const res=await axios.post('/user/login',{email,password});
+
     if(res.status!=200){
         throw new Error('Unable to login');
     }
@@ -10,12 +13,25 @@ export const loginUser=async(email:string,password:string)=>{
 }
 
 export const signupUser=async(name:string,email:string,password:string)=>{
-  const res=await axios.post('/user/signup',{name,email,password});
-  if(res.status!=201){
+ 
+  try{
+    
+    
+     const res=await axios.post('/user/signup',{name,email,password});
+    //  console.log(res);
+     
+     if(res.status!=201){
+    console.log('status chud gya');
       throw new Error('Unable to Signup');
   }
   const data=await res.data;
   return data;
+  }
+ catch(error){
+  console.log(error);
+ }
+  
+  
 }
 
 export const checkAuthStatus = async () => {
@@ -28,7 +44,7 @@ export const checkAuthStatus = async () => {
 };
 
 export const sendChatRequest= async(message:string)=>{
-    const res=await axios.post("/chat/new",{message});
+    const res=await axios.post("/chats/new",{message});
     if(res.status!=200){
       throw new Error("Unable to send chats");
     }
@@ -37,7 +53,7 @@ export const sendChatRequest= async(message:string)=>{
 }
 
 export const getUserChats= async()=>{
-  const res=await axios.get("/chat/all-chats");
+  const res=await axios.get("/chats/all-chats");
   if(res.status!=200){
     throw new Error("Unable to send chats");
   }
@@ -46,7 +62,7 @@ export const getUserChats= async()=>{
 }
 
 export const deleteUserChats= async()=>{
-  const res=await axios.delete("/chat/delete");
+  const res=await axios.delete("/chats/delete");
   if(res.status!=200){
     throw new Error("Unable to delete chats");
   }
