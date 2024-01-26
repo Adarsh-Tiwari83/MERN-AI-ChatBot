@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../models/user.js";
 import { OpenAI } from 'openai';
+import { config } from 'dotenv';
+config();
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: process.env.OPEN_AI_SECRET,
   // organization:process.env.OPENAI_ORGANIZATION_ID// This is the default and can be omitted
 });
-
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
+
 export const generateChatCompletion = async (
   req: Request,
   res: Response,

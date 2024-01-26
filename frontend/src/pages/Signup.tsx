@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import { IoMdLogIn } from "react-icons/io";
 import CustomizedInput from '../components/shared/CustomizedInput'
 import { useAuth } from '../context/AuthContext';
