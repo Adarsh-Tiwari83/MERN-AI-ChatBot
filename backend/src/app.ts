@@ -26,7 +26,7 @@ app.use("/api/v1", appRouter);
 // })
 
 app.get('/',(req,res)=>{
-    res.json('Hello guys');
+    res.status(200).send('Hello guys');
     
 })
 export default app;
