@@ -10,7 +10,7 @@ const app = express();
 import appRouter from "./routes/index.js";
 
 //middlewares
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "https://mern-ai-chat-bot-3qjx.vercel.app", credentials: true }));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
@@ -19,14 +19,6 @@ app.use(morgan("dev"));
 
 app.use("/api/v1", appRouter);
 
-// app.use(express.static(path.join(__dirname,'../../frontend/dist')));
 
-// app.get('*',(req,res)=>{
-//     res.sendFile(path.join(__dirname,'../../frontend/dist/index.html'));
-// })
 
-app.get('/',(req,res)=>{
-    res.status(200).send('Hello guys');
-    
-})
 export default app;
