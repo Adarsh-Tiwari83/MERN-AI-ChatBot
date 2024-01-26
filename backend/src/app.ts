@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname,'../../frontend/dist')));
 //     res.sendFile(path.join(__dirname,'../../frontend/dist/index.html'));
 // })
 
-app.get('*',(req,res)=>{
+app.get('/',(req,res)=>{
     res.json('Hello guys');
     
 })
