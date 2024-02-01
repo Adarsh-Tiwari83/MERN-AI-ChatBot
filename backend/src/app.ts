@@ -16,8 +16,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 //remove it in production
 app.use(morgan("dev"));
-app.get('/',(req,res)=>{
-  res.json("HELLO");
+app.use('/',(req,res)=>{
+  res.send("HELLO");
 })
 app.use("/api/v1", appRouter);
 
